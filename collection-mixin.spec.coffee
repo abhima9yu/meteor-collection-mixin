@@ -51,6 +51,13 @@ describe 'mongoCollectionExtension', ->
     it 'should add collection helpers', ->
       expect(TestSchema.hasOwnProperty('mixinCollectionHelperMethod')).to.eq(true)
 
+    it 'should override helper method which returns collection of the document', ->
+      testSchema = TestSchema.findOne()
+      expect(testSchema.collection()).to.eql(TestSchema)
+
+    it 'should register collection with the mixin', ->
+      expect(testMixin.registeredCollections).to.include(TestSchema)
+
   describe 'includeMixinSchema', ->
     it 'should add the field from mixin to the collection schema', ->
       testSchema = TestSchema.findOne({})

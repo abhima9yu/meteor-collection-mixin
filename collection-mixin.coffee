@@ -2,6 +2,7 @@
 
 _.extend(Mongo.Collection.prototype, {
   includeCollectionMixins: (mixins...) ->
+    @addHelperToReturnCollection()
     @includeCollectionMixin(mixin) for mixin in mixins
 
   includeCollectionMixin: (mixin) ->
@@ -9,6 +10,10 @@ _.extend(Mongo.Collection.prototype, {
     @includeMixinHelpers(mixin)
     @includeMixinCollectionHelpers(mixin)
     @registerCollectionWithMixin(mixin)
+
+  addHelperToReturnCollection: ->
+    self = @
+    @helpers({collection: -> self})
 
   includeMixinSchema: (mixin) ->
     @attachSchema(mixin.schema(@)) if mixin.schema
