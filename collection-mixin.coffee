@@ -1,4 +1,5 @@
 { Mongo } = require 'meteor/mongo'
+{ expect } = require 'chai'
 
 _.extend(Mongo.Collection.prototype, {
   includeCollectionMixins: (mixins...) ->
