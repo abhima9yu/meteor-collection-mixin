@@ -1,8 +1,8 @@
 { resetDatabase } = require 'meteor/xolvio:cleaner'
-{ expect } = require 'meteor/practicalmeteor:chai'
+{ expect } = require 'chai'
 
 { Mongo } = require 'meteor/mongo'
-{ SimpleSchema } = require 'meteor/aldeed:simple-schema'
+SimpleSchema = require 'simpl-schema'
 
 require './collection-mixin.coffee'
 
