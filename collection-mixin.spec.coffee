@@ -1,8 +1,18 @@
+`import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';`
+
+checkNpmVersions({
+  'chai': '4.1.x',
+  'simpl-schema': '1.4.x'
+}, 'abhima9yu:collection-mixin')
+
+
 { resetDatabase } = require 'meteor/xolvio:cleaner'
 { expect } = require 'chai'
 
+
+
 { Mongo } = require 'meteor/mongo'
-SimpleSchema = require 'simpl-schema'
+`import SimpleSchema from 'simpl-schema'`
 
 require './collection-mixin.coffee'
 

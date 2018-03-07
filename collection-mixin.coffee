@@ -1,5 +1,12 @@
 { Mongo } = require 'meteor/mongo'
-{ expect } = require 'chai'
+`import SimpleSchema from 'simpl-schema'`
+`import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';`
+
+checkNpmVersions({
+  'simpl-schema': '1.4.x'
+}, 'abhima9yu:collection-mixin')
+
+SimpleSchema.extendOptions(['autoform'])
 
 _.extend(Mongo.Collection.prototype, {
   includeCollectionMixins: (mixins...) ->
