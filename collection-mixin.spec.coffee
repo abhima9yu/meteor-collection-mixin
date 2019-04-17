@@ -9,9 +9,8 @@ checkNpmVersions({
 { resetDatabase } = require 'meteor/xolvio:cleaner'
 { expect } = require 'chai'
 
-
-
 { Mongo } = require 'meteor/mongo'
+
 `import SimpleSchema from 'simpl-schema'`
 
 require './collection-mixin.coffee'

@@ -1,6 +1,6 @@
 Package.describe({
   name: 'abhima9yu:collection-mixin',
-  version: '0.0.4_4',
+  version: '0.0.4_5',
   // Brief, one-line summary of the package.
   summary: "Move collections common code into a separate module which we call collection mixin.",
   // URL to the Git repository containing the source code for this package
