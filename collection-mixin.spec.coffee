@@ -1,92 +1,101 @@
-#{ resetDatabase } = require 'meteor/xolvio:cleaner'
-#{ expect } = require 'chai'
+`import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';`
 
-#{ Mongo } = require 'meteor/mongo'
-#SimpleSchema = require 'simpl-schema'
+checkNpmVersions({
+  'chai': '4.1.x',
+  'simpl-schema': '1.4.x'
+}, 'abhima9yu:collection-mixin')
 
-#require './collection-mixin.coffee'
 
-## Test mixin
-#testMixin = {
-  #schema: (collection)->
-    #new SimpleSchema
-      #"sample":
-        #type: String
-        #optional: true
+{ resetDatabase } = require 'meteor/xolvio:cleaner'
+{ expect } = require 'chai'
 
-  #helpers:
-    #mixinHelperMethod: -> true
+{ Mongo } = require 'meteor/mongo'
 
-  #collectionHelpers:
-    #mixinCollectionHelperMethod: -> true
-#}
+`import SimpleSchema from 'simpl-schema'`
 
-#otherTestMixin = {
-  #helpers:
-    #mixinHelperMethod: -> false
-  #collectionHelpers:
-    #mixinCollectionHelperMethod: -> false
-#}
+require './collection-mixin.coffee'
 
-#exports.testMixin = testMixin
+# Test mixin
+testMixin = {
+  schema: (collection)->
+    new SimpleSchema
+      "sample":
+        type: String
+        optional: true
 
-## Test schema
-#TestSchema = new Mongo.Collection('test')
-#TestSchema.includeCollectionMixins(testMixin)
+  helpers:
+    mixinHelperMethod: -> true
 
-#describe 'mongoCollectionExtension', ->
-  #beforeEach ->
-    #resetDatabase()
-    #TestSchema.insert({"sample": 'Gurgaon' })
+  collectionHelpers:
+    mixinCollectionHelperMethod: -> true
+}
 
-  #describe 'includeCollectionMixins', ->
-    #it 'should include mixins fields in the schema', ->
-      #testSchema = TestSchema.findOne({})
-      #expect(testSchema.hasOwnProperty('sample')).to.eq(true)
+otherTestMixin = {
+  helpers:
+    mixinHelperMethod: -> false
+  collectionHelpers:
+    mixinCollectionHelperMethod: -> false
+}
 
-    #it 'should include mixins helpers', ->
-      #testSchema = TestSchema.findOne({})
-      #expect(typeof testSchema.mixinHelperMethod == 'function').to.eq(true)
+exports.testMixin = testMixin
 
-    #it 'should add collection helpers', ->
-      #expect(TestSchema.hasOwnProperty('mixinCollectionHelperMethod')).to.eq(true)
+# Test schema
+TestSchema = new Mongo.Collection('test')
+TestSchema.includeCollectionMixins(testMixin)
 
-    #it 'should override helper method which returns collection of the document', ->
-      #testSchema = TestSchema.findOne()
-      #expect(testSchema.collection()).to.eql(TestSchema)
+describe 'mongoCollectionExtension', ->
+  beforeEach ->
+    resetDatabase()
+    TestSchema.insert({"sample": 'Gurgaon' })
 
-    #it 'should register collection with the mixin', ->
-      #expect(testMixin.registeredCollections).to.include(TestSchema)
+  describe 'includeCollectionMixins', ->
+    it 'should include mixins fields in the schema', ->
+      testSchema = TestSchema.findOne({})
+      expect(testSchema.hasOwnProperty('sample')).to.eq(true)
 
-  #describe 'includeMixinSchema', ->
-    #it 'should add the field from mixin to the collection schema', ->
-      #testSchema = TestSchema.findOne({})
-      #expect(testSchema.hasOwnProperty('sample')).to.eq(true)
+    it 'should include mixins helpers', ->
+      testSchema = TestSchema.findOne({})
+      expect(typeof testSchema.mixinHelperMethod == 'function').to.eq(true)
 
-  #describe 'includeMixinHelpers', ->
-    #it 'should add the helpers to the document helpers', ->
-      #testSchema = TestSchema.findOne({})
-      #expect(typeof testSchema.mixinHelperMethod == 'function').to.eq(true)
+    it 'should add collection helpers', ->
+      expect(TestSchema.hasOwnProperty('mixinCollectionHelperMethod')).to.eq(true)
 
-    #context 'when the helper is already defined', ->
-      #it 'should override that helper method', ->
-        #testSchema = TestSchema.findOne({})
-        #expect(testSchema.mixinHelperMethod()).to.eq(true)
-        #TestSchema.includeMixinHelpers(otherTestMixin)
-        #testSchema = TestSchema.findOne({})
-        #expect(testSchema.mixinHelperMethod()).to.eq(false)
+    it 'should override helper method which returns collection of the document', ->
+      testSchema = TestSchema.findOne()
+      expect(testSchema.collection()).to.eql(TestSchema)
 
-  #describe 'includeMixinCollectionHelpers', ->
-    #it 'should add the collection helpers to the collection helpers', ->
-      #expect(TestSchema.hasOwnProperty('mixinCollectionHelperMethod')).to.eq(true)
+    it 'should register collection with the mixin', ->
+      expect(testMixin.registeredCollections).to.include(TestSchema)
 
-  #describe 'registerCollectionWithMixin', ->
-    #it 'should add collection to the mixins registered collection list', ->
-      #expect(testMixin.registeredCollections).to.include(TestSchema)
+  describe 'includeMixinSchema', ->
+    it 'should add the field from mixin to the collection schema', ->
+      testSchema = TestSchema.findOne({})
+      expect(testSchema.hasOwnProperty('sample')).to.eq(true)
 
-    #context 'when collection helper is already defined', ->
-      #it 'should override that helper method', ->
-        #expect(TestSchema.mixinCollectionHelperMethod()).to.eq(true)
-        #TestSchema.includeMixinCollectionHelpers(otherTestMixin)
-        #expect(TestSchema.mixinCollectionHelperMethod()).to.eq(false)
+  describe 'includeMixinHelpers', ->
+    it 'should add the helpers to the document helpers', ->
+      testSchema = TestSchema.findOne({})
+      expect(typeof testSchema.mixinHelperMethod == 'function').to.eq(true)
+
+    context 'when the helper is already defined', ->
+      it 'should override that helper method', ->
+        testSchema = TestSchema.findOne({})
+        expect(testSchema.mixinHelperMethod()).to.eq(true)
+        TestSchema.includeMixinHelpers(otherTestMixin)
+        testSchema = TestSchema.findOne({})
+        expect(testSchema.mixinHelperMethod()).to.eq(false)
+
+  describe 'includeMixinCollectionHelpers', ->
+    it 'should add the collection helpers to the collection helpers', ->
+      expect(TestSchema.hasOwnProperty('mixinCollectionHelperMethod')).to.eq(true)
+
+  describe 'registerCollectionWithMixin', ->
+    it 'should add collection to the mixins registered collection list', ->
+      expect(testMixin.registeredCollections).to.include(TestSchema)
+
+    context 'when collection helper is already defined', ->
+      it 'should override that helper method', ->
+        expect(TestSchema.mixinCollectionHelperMethod()).to.eq(true)
+        TestSchema.includeMixinCollectionHelpers(otherTestMixin)
+        expect(TestSchema.mixinCollectionHelperMethod()).to.eq(false)
 
